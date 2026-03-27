@@ -42,6 +42,10 @@ public class PlayerTimeManager {
     }
 
     public void sendInfoBars(Player player, PlayerDataManager playerDataManager, MainConfigManager mainConfigManager){
+        if(!isValidWorld(player.getWorld(),mainConfigManager)) {
+            return;
+        }
+
         String timeLeftString = playerDataManager.getTimeLeft(player);
         boolean isMessageEnabled = playerDataManager.isMessageEnabled(player);
         if(isMessageEnabled){
@@ -176,6 +180,8 @@ public class PlayerTimeManager {
 
         List<String> worlds = worldWhitelistSystemConfig.getWorlds();
         if(!worlds.contains(to.getWorld().getName())) {
+            // Remove boss bar if applies
+            plugin.getPlayerDataManager().removeBossBar(player);
             return;
         }
 
